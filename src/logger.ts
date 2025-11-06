@@ -9,3 +9,4 @@ export const logger = pino(
     options: { destination: dest, mkdir: true }
   })
 );
+
