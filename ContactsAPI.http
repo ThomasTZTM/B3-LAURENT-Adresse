@@ -1,0 +1,47 @@
+@baseUrl = http://localhost:3000
+@json = application/json
+
+###
+# Accueil
+GET {{baseUrl}}/
+
+###
+# Liste des contacts
+GET {{baseUrl}}/contacts
+
+###
+# Liste filtrée (optionnel)
+GET {{baseUrl}}/contacts?name=Thomas&email=coda.com
+
+###
+# Créer un contact
+# @name createContact
+POST {{baseUrl}}/contacts
+Content-Type: {{json}}
+
+{
+  "name": "Alice Martin",
+  "email": "alice@mail.com",
+  "phone": "0611223344"
+}
+
+###
+# Détail du contact créé (utilise l'id retourné au dessus)
+GET {{baseUrl}}/contacts/{{createContact.response.body.$.data.id}}
+
+###
+# Modifier le contact créé (partiel OK)
+PUT {{baseUrl}}/contacts/{{createContact.response.body.$.data.id}}
+Content-Type: {{json}}
+
+{
+  "name": "Alice Modifiée"
+}
+
+###
+# Supprimer le contact créé
+DELETE {{baseUrl}}/contacts/{{createContact.response.body.$.data.id}}
+
+###
+# (Exemple d'erreur) Lire un contact inexistant -> 404 attendu
+GET {{baseUrl}}/contacts/999999
